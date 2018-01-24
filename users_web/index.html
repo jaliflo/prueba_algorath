@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="app.js"></script>
+  </head>
+</html>
+<body ng-app="AlgorathTest" ng-controller="UsersController as users">
+    <p>Name</p>
+    <input type="text" ng-model="users.userModel.name"></input>
+    <button type="button" ng-click="users.newUser()">New User</button>
+    <p ng-show="successMessage">New user created succesfully</p>
+    <p>{{errorMessage}}</p>
+
+    <hr>
+
+    <p>Select two users</p>
+    <select name="selectUser1" id="selectUser1" ng-model="users.selectsModel.select1">
+      <option ng-repeat="name in select1Users" value="{{name}}">{{name}}</option>
+    </select>
+    <select name="selectUser2" id="selectUser2" ng-model="users.selectsModel.select2">
+      <option ng-repeat="name in select2Users" value="{{name}}">{{name}}</option>
+    </select>
+    <button type="button" ng-click="users.connectUsers()">Connect</button>
+</body>

@@ -45,8 +45,11 @@ router.put('/connect', function(req, res, next){
     var connections1 = users[0].connections;
     var connections2 = users[1].connections;
 
-    if(connections1.indexOf(userName2) === -1){
+    console.log(userName1, userName2);
+
+    if(connections1.indexOf(userName2) === -1 && userName2 !== users[0].name){
       connections1.push(userName2);
+      console.log(connections1);
       User.update({name: userName1}, {$set: {connections: connections1}}, function(err, user1){
         if(err) {
           next(err);
@@ -54,6 +57,7 @@ router.put('/connect', function(req, res, next){
         }
 
         connections2.push(userName1);
+        console.log(connections2);
         User.update({name: userName2}, {$set: {connections: connections2}}, function(err, user2){
           if(err) {
             next(err);
