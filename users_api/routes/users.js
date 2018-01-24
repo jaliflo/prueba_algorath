@@ -35,12 +35,19 @@ router.post('/', function(req, res, next){
 router.put('/connect', function(req, res, next){
   var userName1 = req.body.name1;
   var userName2 = req.body.name2;
+
+  console.log(userName1, userName2);
   
   User.find({$or: [{name: userName1}, {name: userName2}]}).exec(function(err, users){
     if(err) {
       next(err);
       return;
     }
+
+    console.log(users[0].name, users[1].name);
+
+    userName1 = users[0].name;
+    userName2 = users[1].name;
 
     var connections1 = users[0].connections;
     var connections2 = users[1].connections;
