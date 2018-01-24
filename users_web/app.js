@@ -1,8 +1,8 @@
 var app = angular.module('AlgorathTest', []);
 
-app.controller('UsersController', function($http, $timeout, $scope){
-    var apiUrl = "http://127.0.0.1:3000/api/users";
-    var connectUrl = apiUrl + "/connect";
+app.controller('UsersController', function ($http, $timeout, $scope) {
+    var apiUrl = "http://127.0.0.1:3000/api/users/";
+    var connectUrl = apiUrl + "connect";
 
     var userModel = {
         name: ''
@@ -15,16 +15,21 @@ app.controller('UsersController', function($http, $timeout, $scope){
     }
     this.selectsModel = selectsModel;
 
+    var findModel = {
+        name: ''
+    }
+    this.findModel = findModel;
+
     var totalUsers = [];
 
     function getUsers() {
         $http({
             method: 'GET',
             url: apiUrl
-        }).then(function(response){
+        }).then(function (response) {
             console.log(JSON.stringify(response));
             totalUsers = [];
-            response.data.list.map(function(user){
+            response.data.list.map(function (user) {
                 totalUsers.push(user.name);
             });
 
@@ -34,18 +39,18 @@ app.controller('UsersController', function($http, $timeout, $scope){
             $scope.select1Users = angular.copy(totalUsers);
             $scope.select2Users = angular.copy(totalUsers);
             console.log(JSON.stringify(totalUsers));
-        }, function(error){
+        }, function (error) {
             console.log(JSON.stringify(error));
         });
     }
 
-    $scope.$watch('users.selectsModel.select1', function(newVal, oldVal){
+    $scope.$watch('users.selectsModel.select1', function (newVal, oldVal) {
         console.log(newVal);
-        if(newVal !== ''){
+        if (newVal !== '') {
             $scope.select2Users = angular.copy(totalUsers);
             var aux = [];
-            $scope.select2Users.map(function(name){
-                if(name !== newVal){
+            $scope.select2Users.map(function (name) {
+                if (name !== newVal) {
                     aux.push(name);
                 }
             });
@@ -53,13 +58,13 @@ app.controller('UsersController', function($http, $timeout, $scope){
         }
     });
 
-    $scope.$watch('users.selectsModel.select2', function(newVal, oldVal){
+    $scope.$watch('users.selectsModel.select2', function (newVal, oldVal) {
         console.log(newVal);
-        if(newVal !== ''){
+        if (newVal !== '') {
             $scope.select1Users = angular.copy(totalUsers);
             var aux = [];
-            $scope.select1Users.map(function(name){
-                if(name !== newVal){
+            $scope.select1Users.map(function (name) {
+                if (name !== newVal) {
                     aux.push(name);
                 }
             });
@@ -67,7 +72,7 @@ app.controller('UsersController', function($http, $timeout, $scope){
         }
     });
 
-    this.newUser = function() {
+    this.newUser = function () {
         console.log(userModel);
         $http({
             method: 'POST',
@@ -75,51 +80,67 @@ app.controller('UsersController', function($http, $timeout, $scope){
             data: {
                 "name": userModel.name
             }
-        }).then(function(response){
+        }).then(function (response) {
             console.log(JSON.stringify(response));
-            if(response.data.ok){
+            if (response.data.ok) {
                 console.log('aqui entra');
                 $scope.successMessage = true;
-                $timeout(function(){
+                $timeout(function () {
                     $scope.successMessage = false;
                 }, 2000);
                 getUsers();
-            }else if(response.data.err.split(" ")[0] === "E11000"){
+            } else if (response.data.err.split(" ")[0] === "E11000") {
                 console.log("duplicate");
                 $scope.errorMessage = "User alredy exists";
-                $timeout(function(){
+                $timeout(function () {
                     $scope.errorMessage = undefined;
                 }, 2000);
-            }else {
+            } else {
                 $scope.errorMessage = "Error creating user";
-                $timeout(function(){
+                $timeout(function () {
                     $scope.errorMessage = undefined;
                 }, 2000);
             }
-        }, function(error){
+        }, function (error) {
             console.log(JSON.stringify(error));
             $scope.errorMessage = "Error creating user";
-            $timeout(function(){
+            $timeout(function () {
                 $scope.errorMessage = undefined;
             }, 2000);
         });
     };
 
-    this.connectUsers = function() {
+    this.connectUsers = function () {
         console.log(JSON.stringify(this.selectsModel));
+        if (this.selectsModel.select1 === "" || this.selectsModel.select2 === "") {
+            
+        } else {
+            $http({
+                method: 'PUT',
+                url: connectUrl,
+                data: {
+                    name1: this.selectsModel.select1,
+                    name2: this.selectsModel.select2
+                }
+            }).then(function (response) {
+                console.log(JSON.stringify(response));
+            }, function (error) {
+                console.log(JSON.stringify(error));
+            });
+        }
+    };
+
+    this.findConnections = function () {
         $http({
-            method: 'PUT',
-            url: connectUrl,
-            data: {
-                name1: this.selectsModel.select1,
-                name2: this.selectsModel.select2
-            }
-        }).then(function(response){
+            method: 'GET',
+            url: apiUrl + findModel.name
+        }).then(function (response) {
             console.log(JSON.stringify(response));
-        }, function(error){
+            $scope.connectedUsers = response.data.users;
+        }, function (error) {
             console.log(JSON.stringify(error));
         });
-    };
+    }
 
     getUsers();
 });

@@ -21,4 +21,22 @@
       <option ng-repeat="name in select2Users" value="{{name}}">{{name}}</option>
     </select>
     <button type="button" ng-click="users.connectUsers()">Connect</button>
+
+    <hr>
+
+    <p>Name</p>
+    <input type="text" ng-model="users.findModel.name"></input><br>
+    <button type="button" ng-click="users.findConnections()">Find Connections</button>
+    <br>
+    <br>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      <tr ng-repeat="connection in connectedUsers">
+        <td>{{connection._id}}</td>
+        <td>{{connection.name}}</td>
+      </tr>
+    </table>
 </body>

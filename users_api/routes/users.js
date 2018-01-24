@@ -101,6 +101,13 @@ router.get('/:name', function(req, res, next){
       return;
     }
 
+    if(user === null){
+      var err = {};
+      err.message = "User does not exist";
+      next(err);
+      return;
+    }
+
     User.find({name: {$in: user.connections}}, function(err, list){
       if(err) {
         next(err);
