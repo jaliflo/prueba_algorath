@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(36, 138, 206);
+}
+
+button {
+    color: white;
+    background-color: rgb(39, 89, 253);
+    border: none;
+    padding: 10px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 148px;
+    font-weight: bold;
+}
+
+hr {
+    color: white;
+    display: block;
+    margin: 5px;
+}
+
+input {
+    border-color: #4555;
+    border-radius: 5px;
+    width: 148px;
+}
+
+select {
+    border-radius: 5px;
+    width: 71px;
+}
+
+.connnection-table {
+    border-collapse: collapse;
+}
+
+.connnection-table td, #connnection-table th {
+    border: 1px solid rgb(255, 255, 255);
+    padding: 8px;
+}
+
+.connect-button {
+    margin-bottom: 11px;
+}

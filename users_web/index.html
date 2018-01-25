@@ -2,11 +2,14 @@
   <head>
     <script src="node_modules/angular/angular.js"></script>
     <script src="app.js"></script>
+
+    <link rel="stylesheet" href="style.css">
   </head>
 </html>
 <body ng-app="AlgorathTest" ng-controller="UsersController as users">
     <p>Name</p>
     <input type="text" ng-model="users.userModel.name"></input>
+    <br>
     <button type="button" ng-click="users.newUser()">New User</button>
     <p ng-show="successMessage">New user created succesfully</p>
     <p>{{errorMessage}}</p>
@@ -20,7 +23,8 @@
     <select name="selectUser2" id="selectUser2" ng-model="users.selectsModel.select2">
       <option ng-repeat="name in select2Users" value="{{name}}">{{name}}</option>
     </select>
-    <button type="button" ng-click="users.connectUsers()">Connect</button>
+    <br>
+    <button class="connect-button" type="button" ng-click="users.connectUsers()">Connect</button>
 
     <hr>
 
@@ -29,7 +33,7 @@
     <button type="button" ng-click="users.findConnections()">Find Connections</button>
     <br>
     <br>
-    <table>
+    <table class"connection-table">
       <tr>
         <th>ID</th>
         <th>Name</th>
